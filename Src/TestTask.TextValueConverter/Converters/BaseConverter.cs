@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TestTask.TextValueConverter.Converters.Exceptions;
 using TestTask.TextValueConverter.Converters.Interfaces;
 
@@ -52,8 +51,8 @@ namespace TestTask.TextValueConverter.Converters
         /// <inheritdoc />
         public string Invoke(string input)
         {
-            double convertedValue;
-
+            string result;
+            double convertedValue = 0;
             var parcedInput = Parce(input);
             var cleanValue = RecalculateToCleanValue(parcedInput.Value, parcedInput.SiPrefix);
 
@@ -68,7 +67,9 @@ namespace TestTask.TextValueConverter.Converters
                     ex);
             }
 
-            return ConstructResultText(convertedValue);
+            result = ConstructResultText(convertedValue);
+
+            return result;
         }
 
         public abstract double Convert(double cleanValue);
@@ -79,25 +80,28 @@ namespace TestTask.TextValueConverter.Converters
             double result = 0;
 
             Func<double, long, bool> upperPrefixCheck = (double cv, long spv) => cv > 0 && spv > 0 && (long)cv / spv > 0;
-            Func<double, long, bool> loverPrefixCheck = (double cv, long spv) => cv < 0 && spv < 0 && (long)cv * (-1 * spv) > 0;
+            Func<double, long, bool> loverPrefixCheck = (double cv, long spv) => cv > 0 && spv < 0 && cv * (-1 * spv) > 0;
 
-            foreach (var knownSiPrefix in SiPrefixesValues)
+            if (convertedValue != 0)
             {
-                if (upperPrefixCheck(convertedValue, knownSiPrefix.Value))
+                foreach (var knownSiPrefix in SiPrefixesValues)
                 {
-                    siPrefix = knownSiPrefix.Key;
-                    result = convertedValue / knownSiPrefix.Value;
-
-                    break;
-                }
-                else
-                {
-                    if (loverPrefixCheck(convertedValue, knownSiPrefix.Value))
+                    if (upperPrefixCheck(convertedValue, knownSiPrefix.Value))
                     {
                         siPrefix = knownSiPrefix.Key;
-                        result = convertedValue * (-1 * knownSiPrefix.Value);
+                        result = convertedValue / knownSiPrefix.Value;
 
                         break;
+                    }
+                    else
+                    {
+                        if (loverPrefixCheck(convertedValue, knownSiPrefix.Value))
+                        {
+                            siPrefix = knownSiPrefix.Key;
+                            result = convertedValue * (-1 * knownSiPrefix.Value);
+
+                            break;
+                        }
                     }
                 }
             }
@@ -125,7 +129,7 @@ namespace TestTask.TextValueConverter.Converters
 
                 try
                 {
-                    result = siPrefixQuantifier(result); 
+                    result = siPrefixQuantifier(result);
                 }
                 catch (OverflowException ex)
                 {
@@ -141,7 +145,7 @@ namespace TestTask.TextValueConverter.Converters
         private (double Value, string SiPrefix) Parce(string input)
         {
             double value;
-            var inputWords = input.Split(' ');
+            var inputWords = input.Trim().Split(' ');
 
             if (inputWords.Length != 2 ||
                 !InputSufixes.Any(x => inputWords[1].EndsWith(x)) ||
@@ -150,7 +154,7 @@ namespace TestTask.TextValueConverter.Converters
                 throw new WrongInputTextFormatException($"Text input '{input}' does not match expected format '[Value] [SI prefix][Type sufix]'.");
             }
 
-            string sufix = InputSufixes.First(x => inputWords[1].EndsWith(x));
+            string sufix = InputSufixes.FirstOrDefault(x => inputWords[1].EndsWith(x));
             string siPrefix = inputWords[1].Replace(sufix, string.Empty);
 
             return (value, siPrefix);
