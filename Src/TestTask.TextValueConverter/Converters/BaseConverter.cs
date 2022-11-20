@@ -17,7 +17,7 @@ namespace TestTask.TextValueConverter.Converters
             { "kilo", 1000 },
             { "hecto", 100 },
             { "deca", 10 },
-            { string.Empty, 0 },
+            { string.Empty, 1 },
             { "deci", -10 },
             { "centi", -100 },
             { "milli", -1000 },

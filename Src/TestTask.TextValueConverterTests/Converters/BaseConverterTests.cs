@@ -124,7 +124,7 @@ namespace TestTask.TextValueConverterTests.Converters
 
             // Assert
             kilometersResult.Should().Be("273 kilofeet");
-            millimetersResult.Should().Be("4.2 decifeet");
+            millimetersResult.Should().Be("0.42 decifeet");
         }
     }
 
