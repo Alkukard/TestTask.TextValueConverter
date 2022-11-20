@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TestTask.TextValueConverter.Converters.Exceptions;
 using TestTask.TextValueConverter.Converters.Interfaces;
+using TestTask.TextValueConverter.Exceptions;
 
 namespace TestTask.TextValueConverter.Converters
 {
@@ -16,8 +16,9 @@ namespace TestTask.TextValueConverter.Converters
             { "mega", 1000000 },
             { "kilo", 1000 },
             { "hecto", 100 },
-            { "deca", 100 },
-            { "deci", -100 },
+            { "deca", 10 },
+            { string.Empty, 0 },
+            { "deci", -10 },
             { "centi", -100 },
             { "milli", -1000 },
             { "micro", -1000000 },
@@ -72,6 +73,11 @@ namespace TestTask.TextValueConverter.Converters
             return result;
         }
 
+        /// <summary>
+        /// Calculates concreate value of output type from clean value
+        /// </summary>
+        /// <param name="cleanValue">Clean value in case input type</param>
+        /// <returns>Calculated value of output type</returns>
         public abstract double Convert(double cleanValue);
 
         private string ConstructResultText(double convertedValue)

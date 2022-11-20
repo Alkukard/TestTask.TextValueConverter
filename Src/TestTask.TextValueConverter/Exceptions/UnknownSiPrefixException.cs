@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestTask.TextValueConverter.Converters.Exceptions
+namespace TestTask.TextValueConverter.Exceptions
 {
     public class UnknownSiPrefixException : TextValueConvertorException
     {

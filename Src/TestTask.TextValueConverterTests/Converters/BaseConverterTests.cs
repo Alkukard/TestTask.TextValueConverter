@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System;
 using TestTask.TextValueConverter.Converters;
-using TestTask.TextValueConverter.Converters.Exceptions;
+using TestTask.TextValueConverter.Exceptions;
 
 namespace TestTask.TextValueConverterTests.Converters
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TestTask.TextValueConverter.Converters.Exceptions
+namespace TestTask.TextValueConverter.Exceptions
 {
-    public class ValueCalculationException : Exception
+    public class ValueCalculationException : TextValueConvertorException
     {
         public ValueCalculationException() : base() { }
 
