@@ -18,11 +18,20 @@ namespace TestTask.TextValueConverter
         public void DefaultInitialization()
         {
             // Length convertors
+            RegisterConverterInstance(new FeetToInchesConverter());
+            RegisterConverterInstance(new FeetToMeterConverter());
+            RegisterConverterInstance(new InchesToFeetConverter());
+            RegisterConverterInstance(new InchesToMeterConverter());
             RegisterConverterInstance(new MeterToFeetConverter());
             RegisterConverterInstance(new MeterToInchesConverter());
 
+            // Datasizes convertors
+            RegisterConverterInstance(new BitToByteConverter());
+            RegisterConverterInstance(new ByteToBitConverter());
+
             // Temperature convertors
             RegisterConverterInstance(new CelsiusToFahrengeitConverter());
+            RegisterConverterInstance(new FahrengeitToCelsiusConverter());
         }
 
         /// <summary>
