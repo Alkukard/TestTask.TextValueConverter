@@ -24,6 +24,13 @@ namespace TestTask.Example
 
             ConvertAndLog("- Temperature convertion example -", temperatureInput, temperatureOutputType, valueConverter);
 
+            // Custom conversion from grams to pounds
+            var weightInput = "20 kilograms";
+            var weightOutputType = "pound";
+
+            valueConverter.RegisterConverterInstance(new CustomConverter());
+            ConvertAndLog("- Custom weight convertion example -", weightInput, weightOutputType, valueConverter);
+
             Console.ReadKey();
         }
 
